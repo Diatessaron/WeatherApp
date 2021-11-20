@@ -14,9 +14,9 @@
   "rules": {
     "no-console": "off",
     "no-alert": "off",
+    "max-len": "off",
     "no-plusplus": "off",
-    "no-control-regex": "off",
-    "import/extensions": "off"
+    "no-use-before-define": "off"
   },
   "plugins": [
     "jest"
