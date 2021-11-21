@@ -85,6 +85,12 @@ export async function getWeatherDataAndDisplayIt(city) {
     .then((rs) => rs.blob())
     .catch((error) => console.log('Error has occurred during icon request', error));
 
+  document.getElementById('mapImage')?.remove();
+  const img = document.createElement('img');
+  img.src = `https://static-maps.yandex.ru/1.x/?ll=${response.coord.lon},${response.coord.lat}&size=350,350&z=13&l=map`;
+  img.id = 'mapImage';
+  document.getElementById('map').appendChild(img);
+
   displayWeatherData(city, temp, icon);
   addToRecentViewed(city);
   displayRecentViewed();
