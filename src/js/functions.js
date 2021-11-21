@@ -81,7 +81,7 @@ export async function getWeatherDataAndDisplayIt(city) {
   }
 
   const temp = Math.ceil(response.main.temp - 273.15);
-  const icon = await fetch(`http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
+  const icon = await fetch(`https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
     .then((rs) => rs.blob())
     .catch((error) => console.log('Error has occurred during icon request', error));
 
