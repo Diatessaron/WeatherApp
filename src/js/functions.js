@@ -1,8 +1,17 @@
 export function getCurrentLocation() {
-  return fetch('https://get.geojs.io/v1/ip/geo.json')
-    .then((rs) => rs.json())
-    .then((rs) => rs.city)
-    .catch((error) => console.log('Error has occurred during icon request', error));
+  try {
+    return fetch('https://get.geojs.io/v1/ip/geo.json')
+      .then((rs) => {
+        if (rs.ok) {
+          return rs.json();
+        }
+        throw new Error('Error during request');
+      })
+      .then((rs) => rs.city)
+      .catch((error) => console.log('Error has occurred during icon request', error));
+  } catch (e) {
+    alert('Error has occurred during weather request');
+  }
 }
 
 export function displayWeatherData(city, temp, icon) {
@@ -11,7 +20,7 @@ export function displayWeatherData(city, temp, icon) {
   const cityElement = document.getElementById('city');
   const tempElement = document.getElementById('temperature');
 
-  img.src = URL.createObjectURL(icon);
+  img.src = icon;
   document.getElementById('image')?.remove();
   img.id = 'image';
   iconElement.parentNode.insertBefore(img, iconElement.nextSibling);
@@ -51,11 +60,23 @@ export function displayRecentViewed() {
   cities.sort((el1, el2) => new Date(localStorage.getItem(el1)).getTime() - new Date(localStorage.getItem(el2)).getTime());
   const list = document.getElementById('list');
 
+  list.onclick = function (event) {
+    const { target } = event;
+
+    if (!target) {
+      return;
+    }
+    if (!list.contains(target)) {
+      return;
+    }
+
+    getWeatherDataAndDisplayIt(target.innerText);
+  };
+
   for (let i = 0; i < cities.length; i++) {
     const city = cities[i];
     const element = document.createElement('li');
     element.className = 'listElement';
-    element.addEventListener('click', () => getWeatherDataAndDisplayIt(city));
     element.innerText = city;
 
     list.appendChild(element);
@@ -66,9 +87,7 @@ export async function getWeatherDataAndDisplayIt(city) {
   let response;
 
   try {
-    response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.WEATHER_API_KEY}`, {
-      method: 'POST',
-    })
+    response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.WEATHER_API_KEY}`)
       .then((rs) => {
         if (rs.ok) {
           return rs.json();
@@ -80,10 +99,7 @@ export async function getWeatherDataAndDisplayIt(city) {
     return;
   }
 
-  const temp = Math.ceil(response.main.temp - 273.15);
-  const icon = await fetch(`https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
-    .then((rs) => rs.blob())
-    .catch((error) => console.log('Error has occurred during icon request', error));
+  const temp = Math.round(response.main.temp - 273.15);
 
   document.getElementById('mapImage')?.remove();
   const img = document.createElement('img');
@@ -91,7 +107,7 @@ export async function getWeatherDataAndDisplayIt(city) {
   img.id = 'mapImage';
   document.getElementById('map').appendChild(img);
 
-  displayWeatherData(city, temp, icon);
+  displayWeatherData(city, temp, `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
   addToRecentViewed(city);
   displayRecentViewed();
 }

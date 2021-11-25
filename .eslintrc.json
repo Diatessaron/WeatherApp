@@ -16,7 +16,9 @@
     "no-alert": "off",
     "max-len": "off",
     "no-plusplus": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "func-names": "off",
+    "consistent-return": "off"
   },
   "plugins": [
     "jest"

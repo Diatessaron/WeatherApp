@@ -1,21 +1,21 @@
-import fetchMock from 'jest-fetch-mock';
 import {
   getCurrentLocation, getWeatherDataAndDisplayIt, displayRecentViewed,
   addToRecentViewed, displayWeatherData,
 } from '../js/functions';
 
-require('jest-fetch-mock').enableMocks();
-
 describe('getCurrentLocation', () => {
   it('should return not empty string', async () => {
-    fetchMock.mockOnce('{"city":"Kazan’"}');
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ city: 'Kazan`' }),
+    }));
 
     const city = await getCurrentLocation();
 
     expect(city.length !== 0).toBeTruthy();
   });
   it('should return empty string', async () => {
-    fetchMock.mockRejectOnce();
+    global.fetch = jest.fn(() => Promise.reject());
     console.log = jest.fn();
 
     const city = await getCurrentLocation();
@@ -36,14 +36,13 @@ describe('displayWeatherData', () => {
 
     const city = 'Kazan';
     const temp = '-1';
-    const icon = new Blob(new Uint8Array([123]), { type: 'image/png' });
-    window.URL.createObjectURL = jest.fn();
+    const icon = 'http://asd.com';
 
     displayWeatherData(city, temp, icon);
 
     expect(cityElement.innerText).toBe('City: Kazan');
     expect(tempElement.innerText).toBe('Temperature: -1');
-    expect(window.URL.createObjectURL).toBeCalledWith(icon);
+    expect(document.getElementById('image').src).toBe('http://asd.com/');
   });
 });
 
@@ -91,11 +90,7 @@ describe('displayRecentViewed', () => {
 
 describe('getWeatherDataAndDisplayIt', () => {
   it('should clear list and correctly edit html', async () => {
-    fetchMock.mockOnce('{\n'
-            + '   "main":{\n'
-            + '      "temp":273.51,\n'
-            + '   },\n'
-            + '}');
+    global.fetch = jest.fn(() => Promise.reject());
     window.alert = jest.fn();
 
     await getWeatherDataAndDisplayIt('Kazan');
