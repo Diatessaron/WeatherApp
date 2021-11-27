@@ -1,0 +1,26 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "airbnb-base"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-alert": "off",
+    "max-len": "off",
+    "no-plusplus": "off",
+    "no-use-before-define": "off",
+    "func-names": "off",
+    "consistent-return": "off"
+  },
+  "plugins": [
+    "jest"
+  ]
+}
