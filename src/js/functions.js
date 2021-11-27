@@ -63,9 +63,6 @@ export function displayRecentViewed() {
   list.onclick = function (event) {
     const { target } = event;
 
-    if (!target) {
-      return;
-    }
     if (!list.contains(target)) {
       return;
     }
