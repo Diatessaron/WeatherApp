@@ -4,23 +4,139 @@
     <meta charset="UTF-8">
     <title>WeatherApp</title>
     <script type="module" src="src/js/index.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9fafb;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        header h1 img {
+            margin-right: 10px;
+            width: 32px;
+            height: 32px;
+        }
+
+        #search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        #search-bar input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        #search-bar button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #search-bar button:hover {
+            background-color: #45a049;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        #weather-card {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        #weather-card h2 {
+            margin-bottom: 20px;
+        }
+
+        #weather-card div {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        #weather-card div span {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        #weather-card button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #weather-card button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-
-<label for="input">
-    <input type="text" id="input">
-</label>
-<button id="button">Search</button>
-
-<ul id="list">
-</ul>
-
-<p style="display:inline" id="city">City: </p>
-<p style="display:inline;margin-left: 190px" id="temperature">Temperature: </p>
-<p style="display:inline;margin-left: 190px" id="icon">Icon: </p>
-<br/><br/>
-<span id="map">
-</span>
-
+<header>
+    <div id="search-bar">
+        <input type="text" id="input" placeholder="Search location...">
+        <button id="button">Search</button>
+    </div>
+</header>
+<main>
+    <div id="weather-card">
+        <h2>Current Weather</h2>
+        <div>
+            <span>
+                <strong id="city">City: N/A</strong>
+            </span>
+            <span>
+                <strong id="temperature">Temperature: N/A</strong>
+            </span>
+            <p id="icon">Icon: </p>
+        </div>
+    </div>
+    <div id="recent-viewed">
+        <h3>Recently Viewed</h3>
+        <ul id="list"></ul>
+    </div>
+    <div id="map"></div>
+</main>
 </body>
 </html>
